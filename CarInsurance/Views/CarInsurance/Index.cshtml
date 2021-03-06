@@ -1,0 +1,172 @@
+﻿@model CarInsurance.Web.ViewModels.CarInsuranceViewModel
+
+@{ Layout = null; }
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: black;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        /* Add padding to containers */
+        .container {
+            padding: 16px;
+            background-color: white;
+            width: 50% !important;
+            margin-left: 25% !important;
+            margin-top: 5%
+        }
+
+        /* Full-width input fields */
+        input[type=text], input[type=password], input[type=tel], input[type=month] {
+            width: 100%;
+            padding: 15px;
+            margin: 5px 0 22px 0;
+            display: inline-block;
+            border: none;
+            background: #f1f1f1;
+        }
+
+            input[type=text]:focus, input[type=password]:focus {
+                background-color: #ddd;
+                outline: none;
+            }
+
+        /* Overwrite default styles of hr */
+        hr {
+            border: 1px solid #f1f1f1;
+            margin-bottom: 25px;
+        }
+
+        /* Set a style for the submit button */
+        .registerbtn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 16px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            opacity: 0.9;
+        }
+
+            .registerbtn:hover {
+                opacity: 1;
+            }
+
+        /* Add a blue text color to links */
+        a {
+            color: dodgerblue;
+        }
+
+        /* Set a grey background color and center the text of the "sign in" section */
+        .signin {
+            background-color: #f1f1f1;
+            text-align: center;
+        }      
+    </style>
+</head>
+<body>
+
+    <form>
+        <div class="container">
+            <h1>Car Insurance Premium Calculator</h1>
+            <strong>Please fill these details</strong>
+            <hr>
+
+            <label for="phoneNumber"><b>Phone Number </b></label>
+            <input type="tel" pattern="[0-9]*" maxlength="10" placeholder="Enter Number" name="phoneNumber" id="phoneNumber" required>
+
+            <label for="name"><b>Name</b></label>
+            <input type="text" placeholder="Enter Name" name="name" id="name" required>
+
+            <label for="email"><b>Email Address</b></label>
+            <input type="text" placeholder="Enter Email" name="email" id="email" required>
+            <div>
+                <label for="car-brands"><b>Car Brand</b></label>
+                <div>
+                    <select id="car-brands"style="width:100%!important"></select>
+                </div>
+            </div>
+            <div>
+                <label for="car-variants"><b>Car Variant</b></label>
+                <div>
+                    <select id="car-variants" style="width:100%!important"></select>
+                </div>
+            </div>
+            <br>
+            <label for="registeredYear"><b>Registered Year</b></label>
+            <input type="month" id="registeredYear" name="registeredYear">
+
+            <label for="city"><b>Registered City</b></label>
+            <input type="text" placeholder="Enter City" name="city" id="city" required>
+
+            <label for="registrationNumber"><b>Registration Number</b></label>
+            <input type="text" placeholder="Enter Registration Number" name="registrationNumber" id="registrationNumber" required>
+            <hr>
+            <button id="calcBtn" type="button" onclick="pageNamespace.viewModel.calculatePremiumAndIDV()" class="registerbtn">Calculate IDV and Premium</button>
+        </div>
+    </form>
+    <div class="modal fade" id="displayIdvAndPremiumModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">IDV & Premium</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h5>
+                        <strong><span id="selectedRegistrationNumber"></span></strong>
+                    </h5>
+                    <div>
+                        <label>
+                            Insured Declared Value(IDV): 
+                        </label>
+                        <span id="idv"></span>
+                    </div>
+                    <div>
+                        <label>
+                            Premium: 
+                        </label>
+                        <span id="premium"></span>
+                    </div>
+                   
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<script>
+    var pageNamespace = pageNamespace || { };
+    $(document).ready(function () {
+        pageNamespace.data = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model, new Newtonsoft.Json.JsonSerializerSettings { ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore, PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.None }));
+        pageNamespace.viewModel = new CarInsuranceViewModel(pageNamespace.data, '@Url.Content("~/")');
+    });
+</script>
+
+<environment include="Development">
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/CarInsuranceViewModel.js" asp-append-version="true"></script>
+</environment>

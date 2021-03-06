@@ -1,0 +1,44 @@
+[
+  {
+    "BrandId": 1,
+    "VariantId": 1,
+    "VariantName": "Seltos",
+    "OnRoadPrice": 1000000,
+    "ManufacturedYear": 2018
+  },
+  {
+    "BrandId": 1,
+    "VariantId": 2,
+    "VariantName": "Carnival",
+    "OnRoadPrice": 4000000,
+    "ManufacturedYear": 2020
+  },
+  {
+    "BrandId": 2,
+    "VariantId": 3,
+    "VariantName": "520D",
+    "OnRoadPrice": 2500000,
+    "ManufacturedYear": 2018
+  },
+  {
+    "BrandId": 2,
+    "VariantId": 4,
+    "VariantName": "M1",
+    "OnRoadPrice": 4000000,
+    "ManufacturedYear": 2020
+  },
+  {
+    "BrandId": 3,
+    "VariantId": 5,
+    "VariantName": "918 Spyder Concept",
+    "OnRoadPrice": 100000000,
+    "ManufacturedYear": 2016
+  },
+  {
+    "BrandId": 3,
+    "VariantId": 6,
+    "VariantName": "918",
+    "OnRoadPrice": 40000000,
+    "ManufacturedYear": 2019
+  }
+]
